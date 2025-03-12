@@ -69,7 +69,7 @@ function App() {
         <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
           <div className="flex items-center gap-2">
             <Film className="h-6 w-6 text-purple-600 sm:h-8 sm:w-8" />
-            <h1 className="text-xl font-bold sm:text-2xl">MovieMaster</h1>
+            <h1 className="text-xl font-bold sm:text-2xl">Movres</h1>
           </div>
           <div className="flex items-center gap-2">
             <Button
