@@ -19,7 +19,11 @@ export default function LoadingScreen() {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="text-2xl font-bold text-gray-900 sm:text-3xl"
         >
+<<<<<<< HEAD
           Movres
+=======
+          MovieMaster
+>>>>>>> 6e836e1 (admin dashboard ui added)
         </motion.h1>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -45,4 +49,8 @@ export default function LoadingScreen() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 6e836e1 (admin dashboard ui added)

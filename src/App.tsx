@@ -6,6 +6,7 @@ import FilterBar from './components/FilterBar';
 import Button from './components/ui/Button';
 import AuthModal from './components/AuthModal';
 import LoadingScreen from './components/LoadingScreen';
+<<<<<<< HEAD
 import { FilterOptions, Movie } from './types/movie';
 
 // Mock data for UI demonstration
@@ -31,12 +32,25 @@ const mockMovies: Movie[] = [
 ];
 
 function App() {
+=======
+import AdminDashboard from './components/AdminDashboard';
+import { FilterOptions, Movie } from './types/movie';
+import { useAuth } from '@/contexts/AuthContext';
+import { getPopularMovies, searchMovies } from '@/lib/tmdb';
+
+function App() {
+  const { user, isAdmin, logout } = useAuth();
+>>>>>>> 6e836e1 (admin dashboard ui added)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+<<<<<<< HEAD
+=======
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
+>>>>>>> 6e836e1 (admin dashboard ui added)
 
   useEffect(() => {
     // Simulate initial app loading
@@ -48,6 +62,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+<<<<<<< HEAD
     // Simulate API loading
     setIsLoading(true);
     const timer = setTimeout(() => {
@@ -56,15 +71,63 @@ function App() {
     }, 1500);
 
     return () => clearTimeout(timer);
+=======
+    const fetchMovies = async () => {
+      setIsLoading(true);
+      try {
+        let data;
+        if (filters.query) {
+          data = await searchMovies(filters.query);
+        } else {
+          data = await getPopularMovies();
+        }
+        setMovies(data.results);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMovies();
+>>>>>>> 6e836e1 (admin dashboard ui added)
   }, [filters]);
 
   if (isInitialLoading) {
     return <LoadingScreen />;
   }
 
+<<<<<<< HEAD
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
+=======
+  if (showAdminDashboard && isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="sticky top-0 z-20 bg-white shadow-sm">
+          <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
+            <div className="flex items-center gap-2">
+              <Film className="h-6 w-6 text-purple-600 sm:h-8 sm:w-8" />
+              <h1 className="text-xl font-bold sm:text-2xl">Movres Admin</h1>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => setShowAdminDashboard(false)}
+              className="flex items-center gap-2"
+            >
+              Exit Admin Mode
+            </Button>
+          </div>
+        </header>
+        <AdminDashboard />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+>>>>>>> 6e836e1 (admin dashboard ui added)
       <header className="sticky top-0 z-20 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
           <div className="flex items-center gap-2">
@@ -72,6 +135,7 @@ function App() {
             <h1 className="text-xl font-bold sm:text-2xl">Movres</h1>
           </div>
           <div className="flex items-center gap-2">
+<<<<<<< HEAD
             <Button
               variant="outline"
               onClick={() => setIsAuthModalOpen(true)}
@@ -80,6 +144,36 @@ function App() {
               <User className="h-5 w-5" />
               Sign In
             </Button>
+=======
+            {isAdmin && (
+              <Button
+                variant="outline"
+                onClick={() => setShowAdminDashboard(true)}
+                className="hidden items-center gap-2 sm:flex"
+              >
+                Admin Dashboard
+              </Button>
+            )}
+            {user ? (
+              <Button
+                variant="outline"
+                onClick={() => logout()}
+                className="hidden items-center gap-2 sm:flex"
+              >
+                <User className="h-5 w-5" />
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => setIsAuthModalOpen(true)}
+                className="hidden items-center gap-2 sm:flex"
+              >
+                <User className="h-5 w-5" />
+                Sign In
+              </Button>
+            )}
+>>>>>>> 6e836e1 (admin dashboard ui added)
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="rounded-lg p-2 hover:bg-gray-100 sm:hidden"
@@ -92,6 +186,7 @@ function App() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="border-t bg-white p-4 sm:hidden">
+<<<<<<< HEAD
             <Button
               variant="outline"
               onClick={() => {
@@ -103,6 +198,45 @@ function App() {
               <User className="h-5 w-5" />
               Sign In
             </Button>
+=======
+            {user ? (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  logout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="mb-2 flex w-full items-center justify-center gap-2"
+              >
+                <User className="h-5 w-5" />
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsAuthModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="mb-2 flex w-full items-center justify-center gap-2"
+              >
+                <User className="h-5 w-5" />
+                Sign In
+              </Button>
+            )}
+            {isAdmin && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowAdminDashboard(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex w-full items-center justify-center gap-2"
+              >
+                Admin Dashboard
+              </Button>
+            )}
+>>>>>>> 6e836e1 (admin dashboard ui added)
           </div>
         )}
       </header>
@@ -140,6 +274,13 @@ function App() {
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   );
+<<<<<<< HEAD
 }
 
 export default App;
+=======
+  
+}
+
+export default App;
+>>>>>>> 6e836e1 (admin dashboard ui added)
