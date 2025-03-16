@@ -2,48 +2,33 @@ export interface Movie {
   id: number;
   title: string;
   overview: string;
-  poster_path: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
   release_date: string;
   vote_average: number;
+  vote_count: number;
   genre_ids: number[];
-<<<<<<< HEAD
-=======
-  backdrop_path?: string;
-  original_language?: string;
-  popularity?: number;
-  credits?: {
-    cast: Cast[];
-    crew: Crew[];
-  };
-  director?: Crew;
+  popularity: number;
+  adult: boolean;
+  original_language: string;
+  original_title: string;
 }
 
-export interface Cast {
-  id: number;
-  name: string;
-  character: string;
-  profile_path: string | null;
-}
-
-export interface Crew {
-  id: number;
-  name: string;
-  job: string;
-  profile_path: string | null;
->>>>>>> 6e836e1 (admin dashboard ui added)
+export interface TMDBMovieResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
 }
 
 export interface FilterOptions {
-  genre?: string;
-  language?: string;
-  year?: string;
-<<<<<<< HEAD
-  cast?: string;
-  director?: string;
-  rating?: string;
-=======
-  query?: string;
-  actor?: string;
-  director?: string;
->>>>>>> 6e836e1 (admin dashboard ui added)
+  with_genres?: string;
+  with_original_language?: string;
+  primary_release_year?: string;
+  with_cast?: string;
+  with_crew?: string;
+  'vote_average.gte'?: string;
+  'vote_average.lte'?: string;
+  sort_by?: string;
+  page?: string;
 }

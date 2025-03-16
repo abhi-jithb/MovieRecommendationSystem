@@ -1,22 +1,13 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 import './index.css';
-<<<<<<< HEAD
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
-=======
 import { AuthProvider } from './contexts/AuthContext';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </StrictMode>
+  </React.StrictMode>
 );
->>>>>>> 6e836e1 (admin dashboard ui added)

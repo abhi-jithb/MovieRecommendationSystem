@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
   User,
   signInWithEmailAndPassword,
@@ -10,65 +10,74 @@ import { auth } from '@/lib/firebase';
 
 interface AuthContextType {
   user: User | null;
+  isLoading: boolean;
   isAdmin: boolean;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+// Admin credentials
+const ADMIN_EMAIL = 'admin@gmail.com';
+const ADMIN_PASSWORD = 'admin@123';
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      if (user) {
-        setIsAdmin(user.email === 'admin@gmail.com'); // ✅ Only 'admin@gmail.com' is Admin
-      } else {
-        setIsAdmin(false);
-      }
-      setLoading(false);
+      // Check if user is admin
+      setIsAdmin(user?.email === ADMIN_EMAIL);
+      setIsLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to sign in.');
+      throw new Error(error.message || 'Failed to sign in');
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signup = async (name: string, email: string, password: string) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // Update user profile with name
+      await userCredential.user.updateProfile({
+        displayName: name
+      });
     } catch (error: any) {
-      throw new Error(error.message || 'Failed to sign up.');
+      throw new Error(error.message || 'Failed to sign up');
     }
   };
 
   const logout = async () => {
-    await signOut(auth);
+    try {
+      await signOut(auth);
+    } catch (error: any) {
+      throw new Error(error.message || 'Failed to sign out');
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAdmin, loading, signIn, signUp, logout }}>
-      {!loading && children}
+    <AuthContext.Provider value={{ user, isLoading, isAdmin, login, signup, logout }}>
+      {children}
     </AuthContext.Provider>
   );
-};
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}

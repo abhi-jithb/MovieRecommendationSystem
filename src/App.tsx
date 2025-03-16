@@ -1,59 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Film, User, Menu } from 'lucide-react';
+import { Film, User, Menu, LogOut } from 'lucide-react';
 import MovieCard from './components/MovieCard';
 import LoadingCard from './components/LoadingCard';
 import FilterBar from './components/FilterBar';
 import Button from './components/ui/Button';
 import AuthModal from './components/AuthModal';
 import LoadingScreen from './components/LoadingScreen';
-<<<<<<< HEAD
-import { FilterOptions, Movie } from './types/movie';
-
-// Mock data for UI demonstration
-const mockMovies: Movie[] = [
-  {
-    id: 1,
-    title: "Inception",
-    overview: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-    poster_path: "/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
-    release_date: "2010-07-16",
-    vote_average: 8.8,
-    genre_ids: [28, 878, 12]
-  },
-  {
-    id: 2,
-    title: "The Dark Knight",
-    overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-    poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-    release_date: "2008-07-18",
-    vote_average: 9.0,
-    genre_ids: [28, 80, 18]
-  },
-];
-
-function App() {
-=======
 import AdminDashboard from './components/AdminDashboard';
 import { FilterOptions, Movie } from './types/movie';
-import { useAuth } from '@/contexts/AuthContext';
-import { getPopularMovies, searchMovies } from '@/lib/tmdb';
+import { useAuth } from './contexts/AuthContext';
+
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
 function App() {
-  const { user, isAdmin, logout } = useAuth();
->>>>>>> 6e836e1 (admin dashboard ui added)
+  const { user, isLoading: isAuthLoading, isAdmin, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [filters, setFilters] = useState<FilterOptions>({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-<<<<<<< HEAD
-=======
-  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
->>>>>>> 6e836e1 (admin dashboard ui added)
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simulate initial app loading
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
     }, 2000);
@@ -62,72 +32,65 @@ function App() {
   }, []);
 
   useEffect(() => {
-<<<<<<< HEAD
-    // Simulate API loading
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setMovies(mockMovies);
-      setIsLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-=======
     const fetchMovies = async () => {
-      setIsLoading(true);
+      if (!user) return;
+
       try {
-        let data;
-        if (filters.query) {
-          data = await searchMovies(filters.query);
-        } else {
-          data = await getPopularMovies();
+        setIsLoading(true);
+        setError(null);
+        
+        const queryParams = new URLSearchParams({
+          api_key: TMDB_API_KEY,
+          language: 'en-US',
+          page: '1',
+          ...filters
+        });
+
+        const response = await fetch(`${TMDB_BASE_URL}/discover/movie?${queryParams}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch movies');
         }
+
+        const data = await response.json();
         setMovies(data.results);
-      } catch (error) {
-        console.error('Error fetching movies:', error);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred while fetching movies');
+        setMovies([]);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMovies();
->>>>>>> 6e836e1 (admin dashboard ui added)
-  }, [filters]);
+  }, [filters, user]);
 
-  if (isInitialLoading) {
+  if (isInitialLoading || isAuthLoading) {
     return <LoadingScreen />;
   }
 
-<<<<<<< HEAD
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-=======
-  if (showAdminDashboard && isAdmin) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <header className="sticky top-0 z-20 bg-white shadow-sm">
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
-            <div className="flex items-center gap-2">
-              <Film className="h-6 w-6 text-purple-600 sm:h-8 sm:w-8" />
-              <h1 className="text-xl font-bold sm:text-2xl">Movres Admin</h1>
-            </div>
-            <Button
-              variant="outline"
-              onClick={() => setShowAdminDashboard(false)}
-              className="flex items-center gap-2"
-            >
-              Exit Admin Mode
-            </Button>
-          </div>
-        </header>
-        <AdminDashboard />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Welcome to Movres</h1>
+          <p className="text-gray-600 mb-8">Please sign in to continue</p>
+          <Button onClick={() => setIsAuthModalOpen(true)}>
+            Sign In
+          </Button>
+        </div>
+        <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       </div>
     );
   }
 
+  if (isAdmin) {
+    return <AdminDashboard onLogout={logout} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
->>>>>>> 6e836e1 (admin dashboard ui added)
+      {/* Header */}
       <header className="sticky top-0 z-20 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between p-4">
           <div className="flex items-center gap-2">
@@ -135,45 +98,17 @@ function App() {
             <h1 className="text-xl font-bold sm:text-2xl">Movres</h1>
           </div>
           <div className="flex items-center gap-2">
-<<<<<<< HEAD
+            <span className="hidden sm:block text-gray-600">
+              Welcome, {user.displayName || user.email}
+            </span>
             <Button
               variant="outline"
-              onClick={() => setIsAuthModalOpen(true)}
+              onClick={logout}
               className="hidden items-center gap-2 sm:flex"
             >
-              <User className="h-5 w-5" />
-              Sign In
+              <LogOut className="h-5 w-5" />
+              Logout
             </Button>
-=======
-            {isAdmin && (
-              <Button
-                variant="outline"
-                onClick={() => setShowAdminDashboard(true)}
-                className="hidden items-center gap-2 sm:flex"
-              >
-                Admin Dashboard
-              </Button>
-            )}
-            {user ? (
-              <Button
-                variant="outline"
-                onClick={() => logout()}
-                className="hidden items-center gap-2 sm:flex"
-              >
-                <User className="h-5 w-5" />
-                Sign Out
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                onClick={() => setIsAuthModalOpen(true)}
-                className="hidden items-center gap-2 sm:flex"
-              >
-                <User className="h-5 w-5" />
-                Sign In
-              </Button>
-            )}
->>>>>>> 6e836e1 (admin dashboard ui added)
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="rounded-lg p-2 hover:bg-gray-100 sm:hidden"
@@ -186,57 +121,17 @@ function App() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="border-t bg-white p-4 sm:hidden">
-<<<<<<< HEAD
+            <div className="mb-4 text-gray-600">
+              Welcome, {user.displayName || user.email}
+            </div>
             <Button
               variant="outline"
-              onClick={() => {
-                setIsAuthModalOpen(true);
-                setIsMobileMenuOpen(false);
-              }}
+              onClick={logout}
               className="flex w-full items-center justify-center gap-2"
             >
-              <User className="h-5 w-5" />
-              Sign In
+              <LogOut className="h-5 w-5" />
+              Logout
             </Button>
-=======
-            {user ? (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  logout();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="mb-2 flex w-full items-center justify-center gap-2"
-              >
-                <User className="h-5 w-5" />
-                Sign Out
-              </Button>
-            ) : (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsAuthModalOpen(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="mb-2 flex w-full items-center justify-center gap-2"
-              >
-                <User className="h-5 w-5" />
-                Sign In
-              </Button>
-            )}
-            {isAdmin && (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setShowAdminDashboard(true);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex w-full items-center justify-center gap-2"
-              >
-                Admin Dashboard
-              </Button>
-            )}
->>>>>>> 6e836e1 (admin dashboard ui added)
           </div>
         )}
       </header>
@@ -258,29 +153,26 @@ function App() {
           <FilterBar filters={filters} onFilterChange={setFilters} />
 
           {/* Movie Grid */}
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-            {isLoading
-              ? Array.from({ length: 8 }).map((_, index) => (
-                  <LoadingCard key={index} />
-                ))
-              : movies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
+          <div className="mt-8">
+            {error && (
+              <div className="mb-4 rounded-lg bg-red-50 p-4 text-red-700">
+                {error}
+              </div>
+            )}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+              {isLoading
+                ? Array.from({ length: 8 }).map((_, index) => (
+                    <LoadingCard key={index} />
+                  ))
+                : movies.map((movie) => (
+                    <MovieCard key={movie.id} movie={movie} />
+                  ))}
+            </div>
           </div>
         </div>
       </main>
-
-      {/* Auth Modal */}
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   );
-<<<<<<< HEAD
 }
 
 export default App;
-=======
-  
-}
-
-export default App;
->>>>>>> 6e836e1 (admin dashboard ui added)
