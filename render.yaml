@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: movres-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: VITE_FIREBASE_PROJECT_ID
+        sync: false
+      - key: VITE_FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: VITE_FIREBASE_PRIVATE_KEY
+        sync: false 
