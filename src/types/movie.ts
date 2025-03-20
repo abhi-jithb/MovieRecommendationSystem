@@ -2,33 +2,44 @@ export interface Movie {
   id: number;
   title: string;
   overview: string;
-  poster_path: string | null;
-  backdrop_path: string | null;
+  poster_path: string;
+  backdrop_path: string;
   release_date: string;
   vote_average: number;
-  vote_count: number;
-  genre_ids: number[];
-  popularity: number;
-  adult: boolean;
-  original_language: string;
-  original_title: string;
+  director?: string;
+  main_cast?: {
+    id: number;
+    name: string;
+    character: string;
+    profile_path?: string;
+  }[];
+  streaming_services?: {
+    provider_id: number;
+    provider_name: string;
+    logo_path: string;
+  }[];
 }
 
 export interface TMDBMovieResponse {
-  page: number;
   results: Movie[];
+  page: number;
   total_pages: number;
   total_results: number;
 }
 
 export interface FilterOptions {
+  language: string;
+  year_range: {
+    start: number;
+    end: number;
+  } | null;
+  director: string;
+  actor: string;
+  genre: string;
+  with_crew?: string;
+  with_cast?: string;
   with_genres?: string;
   with_original_language?: string;
-  primary_release_year?: string;
-  with_cast?: string;
-  with_crew?: string;
-  'vote_average.gte'?: string;
-  'vote_average.lte'?: string;
   sort_by?: string;
-  page?: string;
+  'vote_average.gte'?: string;
 }
