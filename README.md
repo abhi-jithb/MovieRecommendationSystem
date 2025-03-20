@@ -140,9 +140,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [React](https://reactjs.org/) for the frontend framework
 
 ## 📞 Support
+[Linkedin](https://linkedin.com/abhi-jithb) 
 
-For support, email support@movres.com or join our Slack channel.
 
 ---
 
-Made with ❤️ by [Your Name] 
+Made with ❤️ by [Abhijith B](https://linkedin.com/abhi-jithb) 
