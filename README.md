@@ -34,6 +34,60 @@ A modern web application that helps users discover movies based on their prefere
   - Manage user roles
   - Ban/unban users
   - Delete user accounts
+ 
+### Project Structure 
+
+Directory structure:
+└── abhi-jithb-movierecommendationsystem/
+    ├── README.md
+    ├── eslint.config.js
+    ├── index.html
+    ├── netlify.toml
+    ├── package.json
+    ├── postcss.config.js
+    ├── render.yaml
+    ├── server.js
+    ├── tailwind.config.js
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    ├── tsconfig.node.json
+    ├── vite.config.ts
+    └── src/
+        ├── App.tsx
+        ├── index.css
+        ├── main.tsx
+        ├── vite-env.d.ts
+        ├── components/
+        │   ├── AdminDashboard.tsx
+        │   ├── AuthModal.tsx
+        │   ├── FilterBar.tsx
+        │   ├── LoadingCard.tsx
+        │   ├── LoadingScreen.tsx
+        │   ├── Login.tsx
+        │   ├── MovieCard.tsx
+        │   ├── MovieDetails.tsx
+        │   ├── MovieList.tsx
+        │   ├── Navbar.tsx
+        │   ├── Signup.tsx
+        │   ├── admin/
+        │   │   └── UserManagement.tsx
+        │   └── ui/
+        │       ├── Button.tsx
+        │       └── Input.tsx
+        ├── contexts/
+        │   └── AuthContext.tsx
+        ├── lib/
+        │   ├── firebase-admin.ts
+        │   ├── firebase.ts
+        │   ├── tmdb.ts
+        │   └── utils.ts
+        ├── pages/
+        │   ├── Home.tsx
+        │   ├── MovieDetails.tsx
+        │   └── Profile.tsx
+        └── types/
+            ├── movie.ts
+            └── user.ts
 
 ## 🛠️ Tech Stack
 
