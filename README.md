@@ -39,55 +39,41 @@ A modern web application that helps users discover movies based on their prefere
 
 Directory structure:
 └── abhi-jithb-movierecommendationsystem/
-    ├── README.md
-    ├── eslint.config.js
-    ├── index.html
-    ├── netlify.toml
-    ├── package.json
-    ├── postcss.config.js
-    ├── render.yaml
-    ├── server.js
-    ├── tailwind.config.js
-    ├── tsconfig.app.json
-    ├── tsconfig.json
-    ├── tsconfig.node.json
-    ├── vite.config.ts
-    └── src/
-        ├── App.tsx
-        ├── index.css
-        ├── main.tsx
-        ├── vite-env.d.ts
-        ├── components/
-        │   ├── AdminDashboard.tsx
-        │   ├── AuthModal.tsx
-        │   ├── FilterBar.tsx
-        │   ├── LoadingCard.tsx
-        │   ├── LoadingScreen.tsx
-        │   ├── Login.tsx
-        │   ├── MovieCard.tsx
-        │   ├── MovieDetails.tsx
-        │   ├── MovieList.tsx
-        │   ├── Navbar.tsx
-        │   ├── Signup.tsx
-        │   ├── admin/
-        │   │   └── UserManagement.tsx
-        │   └── ui/
-        │       ├── Button.tsx
-        │       └── Input.tsx
-        ├── contexts/
-        │   └── AuthContext.tsx
-        ├── lib/
-        │   ├── firebase-admin.ts
-        │   ├── firebase.ts
-        │   ├── tmdb.ts
-        │   └── utils.ts
-        ├── pages/
-        │   ├── Home.tsx
-        │   ├── MovieDetails.tsx
-        │   └── Profile.tsx
-        └── types/
-            ├── movie.ts
-            └── user.ts
+    ├── README.md              # Project documentation
+    ├── eslint.config.js       # ESLint configuration
+    ├── index.html             # Entry HTML file
+    ├── package.json           # Project dependencies and scripts
+    ├── postcss.config.js      # PostCSS configuration for Tailwind
+    ├── render.yaml            # Render deployment configuration
+    ├── tailwind.config.js     # Tailwind CSS configuration
+    ├── tsconfig.json          # TypeScript configuration
+    ├── vite.config.ts         # Vite build configuration
+    └── src/                   # Source code
+        ├── App.tsx            # Main application component
+        ├── index.css          # Global CSS
+        ├── main.tsx           # Application entry point
+        ├── components/        # Reusable UI components
+        │   ├── FilterBar.tsx  # Movie filtering component
+        │   ├── MovieCard.tsx  # Movie presentation card
+        │   ├── MovieDetails.tsx # Detailed movie information
+        │   ├── Navbar.tsx     # Navigation component
+        │   ├── AuthModal.tsx  # Authentication modal
+        │   └── ui/            # Base UI components
+        │       ├── Button.tsx # Button component
+        │       └── Input.tsx  # Input component
+        ├── contexts/          # React contexts
+        │   └── AuthContext.tsx # Authentication context
+        ├── lib/               # Utility functions and services
+        │   ├── firebase.ts    # Firebase client configuration
+        │   ├── tmdb.ts        # TMDB API service
+        │   └── utils.ts       # Helper functions
+        ├── pages/             # Page components
+        │   ├── Home.tsx       # Home page
+        │   ├── MovieDetails.tsx # Movie details page
+        │   └── Profile.tsx    # User profile page
+        └── types/             # TypeScript type definitions
+            ├── movie.ts       # Movie-related types
+            └── user.ts        # User-related types
 
 ## 🛠️ Tech Stack
 
