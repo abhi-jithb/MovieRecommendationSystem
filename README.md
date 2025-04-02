@@ -45,43 +45,6 @@ Directory structure:
 ![Screenshot 2025-04-02 125511](https://github.com/user-attachments/assets/27b89aab-d984-4a72-8039-11f66c0dd984)
 
 
-└── abhi-jithb-movierecommendationsystem/
-    ├── README.md              # Project documentation
-    ├── eslint.config.js       # ESLint configuration
-    ├── index.html             # Entry HTML file
-    ├── package.json           # Project dependencies and scripts
-    ├── postcss.config.js      # PostCSS configuration for Tailwind
-    ├── render.yaml            # Render deployment configuration
-    ├── tailwind.config.js     # Tailwind CSS configuration
-    ├── tsconfig.json          # TypeScript configuration
-    ├── vite.config.ts         # Vite build configuration
-    └── src/                   # Source code
-        ├── App.tsx            # Main application component
-        ├── index.css          # Global CSS
-        ├── main.tsx           # Application entry point
-        ├── components/        # Reusable UI components
-        │   ├── FilterBar.tsx  # Movie filtering component
-        │   ├── MovieCard.tsx  # Movie presentation card
-        │   ├── MovieDetails.tsx # Detailed movie information
-        │   ├── Navbar.tsx     # Navigation component
-        │   ├── AuthModal.tsx  # Authentication modal
-        │   └── ui/            # Base UI components
-        │       ├── Button.tsx # Button component
-        │       └── Input.tsx  # Input component
-        ├── contexts/          # React contexts
-        │   └── AuthContext.tsx # Authentication context
-        ├── lib/               # Utility functions and services
-        │   ├── firebase.ts    # Firebase client configuration
-        │   ├── tmdb.ts        # TMDB API service
-        │   └── utils.ts       # Helper functions
-        ├── pages/             # Page components
-        │   ├── Home.tsx       # Home page
-        │   ├── MovieDetails.tsx # Movie details page
-        │   └── Profile.tsx    # User profile page
-        └── types/             # TypeScript type definitions
-            ├── movie.ts       # Movie-related types
-            └── user.ts        # User-related types
-
 ## 🛠️ Tech Stack
 
 - **Frontend**
