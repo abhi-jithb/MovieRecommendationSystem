@@ -41,9 +41,7 @@ A modern web application that helps users discover movies based on their prefere
  
 ### Project Structure 
 
-Directory structure:
 ![Screenshot 2025-04-02 125511](https://github.com/user-attachments/assets/27b89aab-d984-4a72-8039-11f66c0dd984)
-
 
 ## 🛠️ Tech Stack
 
