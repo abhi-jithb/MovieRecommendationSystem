@@ -1,5 +1,9 @@
 # 🎬 Movres - Movie Recommendation System
 
+![Screenshot (192)](https://github.com/user-attachments/assets/52bc7e8f-7535-423f-b4e0-be63c1fe7f85)
+![Screenshot (193)](https://github.com/user-attachments/assets/29aa861a-88aa-4fd6-a8f2-e162d56eb53d)
+![Screenshot (191)](https://github.com/user-attachments/assets/db5c7686-4f7b-4a1b-91a7-24f00ff6786c)
+
 A modern web application that helps users discover movies based on their preferences, featuring a beautiful UI and comprehensive filtering options.
 
 ## 🌟 Features
